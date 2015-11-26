@@ -1,0 +1,22 @@
+{
+  "name": "cheapskate",
+  "version": "1.0.0",
+  "description": "Flask app that pulls our Seamless &amp; Uber transactions from Mint and visualizes them in a web page served on a Raspberry Pi.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timyousaf/cheapskate.git"
+  },
+  "author": "Tim Yousaf <timyousaf@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/timyousaf/cheapskate/issues"
+  },
+  "homepage": "https://github.com/timyousaf/cheapskate#readme",
+  "devDependencies": {
+    "bower": "^1.6.5"
+  }
+}
