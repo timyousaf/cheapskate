@@ -1,8 +1,17 @@
-from flask import Flask
+from flask import Flask, render_template
 import json
 import mintapi
 
 app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
+@app.route('/hello')
+def hello():
+    return render_template('hello.html')
 
 @app.route("/api/transactions")
 def transactions():
@@ -11,7 +20,7 @@ def transactions():
 	return uber_and_seamless_transactions.to_json()
 
 if __name__ == "__main__":
-    creds_file =  open("/Users/tyousaf/mint.txt")
-    creds =  json.loads( creds_file.read() )
-    mint = mintapi.Mint( creds['email'], creds['password'] )
-    app.run()
+    #creds_file =  open("/Users/tyousaf/mint.txt")
+    #creds =  json.loads( creds_file.read() )
+    #mint = mintapi.Mint( creds['email'], creds['password'] )
+    app.run(debug=True)
