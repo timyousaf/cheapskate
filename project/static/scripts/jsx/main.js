@@ -1,55 +1,80 @@
 /** @jsx React.DOM */
+var TransactionTable = React.createClass({
 
-var DynamicSearch = React.createClass({
+        componentDidMount: function(){
+            //$(this.getDOMNode()).sortable({start: this.handleStart, stop: this.handleDrop});
+            console.log('omg we mounted the TransactionTable')
+        },
 
-  // sets initial state
-  getInitialState: function(){
-    return { searchString: '' };
+        render: function () {
+            console.log('rendering the list');
+            var table = this.props.data.map(function (transaction, i) {
+                return (
+                    <li className="list-group-item">
+                        {transaction.date}
+                        {transaction.description}
+                        {transaction.amount}
+                    </li>
+                );
+            }.bind(this));
+
+            return (
+                <ul className="transactionTable list-group">
+                    {table}
+                </ul>
+            );
+        }
+    });
+
+var App = React.createClass({
+
+  loadTransactions: function () {
+            console.log("hi! calling the API now");
+            $.ajax({
+                url: "/api/transactions",
+                dataType: 'json',
+                success: function (data) {
+                    console.log("Got " + data.length + " transactions!");
+                    this.setState({
+                        data: data
+                    });
+                }.bind(this),
+                error: function (xhr, status, err) {
+                    console.error(this.props.url, status, err.toString());
+                }.bind(this)
+            });
   },
 
-  // sets state, triggers render method
-  handleChange: function(event){
-    // grab value form input box
-    this.setState({searchString:event.target.value});
-    console.log("scope updated!")
+  getInitialState: function () {
+            return {data: []};
   },
+
+  componentDidMount: function () {
+            console.log('the app mounted.');
+            this.loadTransactions();
+            //setInterval(this.loadTaskList, this.props.pollInterval);
+        },
 
   render: function() {
-
-    var countries = this.props.items;
-    var searchString = this.state.searchString.trim().toLowerCase();
-
-    // filter countries list by value from input box
-    if(searchString.length > 0){
-      countries = countries.filter(function(country){
-        return country.name.toLowerCase().match( searchString );
-      });
-    }
-
+    console.log('trying to render the App');
+    var transactions = this.props.transactions;
     return (
-      <div>
-        <input type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Search!" />
-        <ul>
-          { countries.map(function(country){ return <li>{country.name} </li> }) }
-        </ul>
+
+      <div className="transactionTable">
+                        <TransactionTable data={this.state.data} />
       </div>
+
     )
   }
 
 });
 
 // list of countries, defined with JavaScript object literals
-var countries = [
-  {"name": "Sweden"}, {"name": "China"}, {"name": "Peru"}, {"name": "Czech Republic"},
-  {"name": "Bolivia"}, {"name": "Latvia"}, {"name": "Samoa"}, {"name": "Armenia"},
-  {"name": "Greenland"}, {"name": "Cuba"}, {"name": "Western Sahara"}, {"name": "Ethiopia"},
-  {"name": "Malaysia"}, {"name": "Argentina"}, {"name": "Uganda"}, {"name": "Chile"},
-  {"name": "Aruba"}, {"name": "Japan"}, {"name": "Trinidad and Tobago"}, {"name": "Italy"},
-  {"name": "Cambodia"}, {"name": "Iceland"}, {"name": "Dominican Republic"}, {"name": "Turkey"},
-  {"name": "Spain"}, {"name": "Poland"}, {"name": "Haiti"}
+var transactions = [
+  {"name": "Sweden"}, {"name": "China"}
 ];
 
 React.render(
-  <DynamicSearch items={ countries } />,
+  <App items={ transactions } />,
   document.getElementById('main')
 );
