@@ -4,7 +4,8 @@ console.log("Beginning the journey! This is the start of main.js")
 require.config({
     paths: {
         react: '../../libs/react/react',
-        jquery: '../../libs/jquery/dist/jquery.min'
+        jquery: '../../libs/jquery/dist/jquery.min',
+        fixeddatatable: '../../libs/fixed-data-table/dist/fixed-data-table'
     },
 
     shim: {
@@ -13,6 +14,9 @@ require.config({
         },
         jquery: {
             exports: '$'
+        },
+        fixeddatatable: {
+            exports: [ 'Table', 'Column', 'Cell' ]
         }
     }
     
@@ -20,7 +24,8 @@ require.config({
 
 require([
     'react',
-    'components/App'
+    'components/App',
+    'fixeddatatable'
 ],
 function(React, App)  {
 

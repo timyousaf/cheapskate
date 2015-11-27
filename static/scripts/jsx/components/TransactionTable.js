@@ -1,37 +1,59 @@
 console.log("Now we are in TransactionTable.js!")
 
 define([
-    'react'
+    'react',
+    'fixeddatatable'
 ], function (React) {
 
     var TransactionTable = React.createClass({
 
             componentDidMount: function(){
                 //$(this.getDOMNode()).sortable({start: this.handleStart, stop: this.handleDrop});
-                console.log('omg we mounted the TransactionTable')
             },
 
             render: function () {
                 console.log('rendering the list. It is:');
                 console.log(this.props.data)
 
-                var table = this.props.data.map(function (transaction, i) {
-                    var date = new Date(transaction.date);
-                    var formattedDate = date.toString();
-                    return (
-                        <li className="list-group-item">
-                            {formattedDate}
-                            {transaction.description}
-                            {transaction.amount}
-                        </li>
-                    );
+                const rows = [
+                  ['a1', 'b1', 'c1'],
+                  ['a2', 'b2', 'c2'],
+                  ['a3', 'b3', 'c3'],
+                  // .... and more
+                ];
 
-                }.bind(this));
+                // var table = this.props.data.map(function (transaction, i) {
+                //     var date = new Date(transaction.date);
+                //     var formattedDate = date.toString();
+                //     return (
+                //         <li className="list-group-item">
+                //             {formattedDate}
+                //             {transaction.description}
+                //             {transaction.amount}
+                //         </li>
+                //     );
+
+                // }.bind(this));
+
+                // return (
+                //     <ul className="transactionTable list-group">
+                //         {table}
+                //     </ul>
+                // );
 
                 return (
-                    <ul className="transactionTable list-group">
-                        {table}
-                    </ul>
+                    <Table
+                        rowHeight={50}
+                        rowsCount={rows.length}
+                        width={5000}
+                        height={5000}
+                        headerHeight={50}>
+                        <Column
+                          header={<Cell>Col 1</Cell>}
+                          cell={<Cell>Column 1 static content</Cell>}
+                          width={2000}
+                        />
+                    />
                 );
 
             }

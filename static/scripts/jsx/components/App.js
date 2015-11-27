@@ -26,21 +26,16 @@ define([
           },
 
           getInitialState: function () {
-                    console.log('setting App.js initial state')
                     return {transactions: []};
           },
 
           componentDidMount: function () {
-                    console.log('App.js component did mount.');
                     this.loadTransactions();
                     //setInterval(this.loadTaskList, this.props.pollInterval);
                 },
 
           render: function() {
-            console.log('Beginning of App.js render');
             var transactions = this.state.transactions;
-            console.log('sending it these transactions:')
-            console.log(transactions)
             return (
 
               <div className="transactionTable">
