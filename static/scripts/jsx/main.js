@@ -4,7 +4,8 @@ console.log("Beginning the journey! This is the start of main.js")
 require.config({
     paths: {
         react: '../../libs/react/react',
-        jquery: '../../libs/jquery/dist/jquery.min'
+        jquery: '../../libs/jquery/dist/jquery.min',
+        d3: '../../libs/d3/d3'
     },
 
     shim: {
@@ -13,6 +14,9 @@ require.config({
         },
         jquery: {
             exports: '$'
+        },
+        d3: {
+            exports: 'd3'
         }
     }
     
