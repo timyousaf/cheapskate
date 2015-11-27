@@ -29,11 +29,8 @@ define([
           getInitialState: function () {
                     console.log('setting App.js initial state')
                     var sampleData = [
-                        {id: '5fbmzmtc', x: 7, y: 41, z: 6},
-                        {id: 's4f8phwm', x: 11, y: 45, z: 9},
-                        {id: 's4wef8phwm', x: 21, y: 35, z: 9},
-                        {id: 's4f8sdfsdfhwm', x: 50, y: 45, z: 9}
-                        // ...
+                        {date: '2015-01', value: 12},
+                        {date: '2015-02', value: 20}
                       ];
 
                     return {
@@ -46,8 +43,7 @@ define([
           componentDidMount: function () {
                     console.log('App.js component did mount.');
                     this.loadTransactions();
-                    //setInterval(this.loadTaskList, this.props.pollInterval);
-                },
+          },
 
           render: function() {
             console.log('Beginning of App.js render');
