@@ -5,19 +5,12 @@
     "Tim Yousaf <timyousaf@gmail.com>"
   ],
   "description": "",
-  "main": "",
-  "moduleType": [],
-  "license": "MIT",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
   "dependencies": {
-    "bootstrap": "~3.3.2",
-    "jquery": "~2.1.3",
-    "react": "~0.13.0"
+    "bootstrap": "*",
+    "jquery": "*",
+    "jquery-ui": "*",
+    "requirejs": "*",
+    "react": "*",
+    "async": "*"
   }
 }
