@@ -1,9 +1,32 @@
 // list of countries, defined with JavaScript object literals
-var transactions = [
-  {"name": "Sweden"}, {"name": "China"}
-];
+console.log("Beginning the journey! This is the start of main.js")
 
-React.render(
-  <App items={ transactions } />,
-  document.getElementById('main')
-);
+require.config({
+    paths: {
+        react: '../../libs/react/react',
+        jquery: '../../libs/jquery/dist/jquery.min'
+    },
+
+    shim: {
+        react: {
+            exports: 'React'
+        },
+        jquery: {
+            exports: '$'
+        }
+    }
+    
+});
+
+require([
+    'react',
+    'components/App'
+],
+function(React, App)  {
+
+	React.render(
+	  <App/>,
+	  document.getElementById('main')
+	);
+
+});
