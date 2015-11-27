@@ -1,0 +1,16 @@
+{
+  "name": "cheapskate",
+  "homepage": "https://github.com/timyousaf/cheapskate",
+  "authors": [
+    "Tim Yousaf <timyousaf@gmail.com>"
+  ],
+  "description": "",
+  "dependencies": {
+    "bootstrap": "*",
+    "jquery": "*",
+    "jquery-ui": "*",
+    "requirejs": "*",
+    "react": "*",
+    "async": "*"
+  }
+}
