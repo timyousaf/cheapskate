@@ -2,6 +2,7 @@ from flask import Flask, render_template
 import json
 import mintapi
 import datetime
+import pandas
 
 app = Flask(__name__)
 state = {}
@@ -43,13 +44,15 @@ def getTransactions(mint_email):
 	return df.reset_index().to_json(orient='records', date_format='iso')
 
 def getHistogram(mint_email):
-	# TODO: inject 0-count buckets for empty days.
-	# TODO: clean up redundant summing when i figure out more about Pandas.
+	# TODO: clean up redundant summing & index rename
 	df = state['data'][mint_email]
 	df = df[ df.description.str.contains("Uber|Seamless") ]
 	df = df[['date', 'amount']]
 	df = df.groupby('date').sum().sort_index() # sums by day and sorts by date
+	idx = pandas.date_range('01-01-2015', '01-01-2016')
+	df = df.reindex(idx, fill_value=0)
 	df = df['amount'].resample('W', how='sum') # re-groups & sums by week
+	df.index.names = ['date']
 	return df.reset_index().to_json(orient='records', date_format='iso')
 
 if __name__ == "__main__":
