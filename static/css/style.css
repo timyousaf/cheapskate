@@ -1,1 +1,33 @@
-/* custom styles */
+body {
+    background-color: rgb(246, 245, 245);
+    font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.label {
+	font: 10px sans-serif;
+	text-align: center;
+	color: white;
+}
+
+.bar:hover {
+  fill: brown;
+}
+
+.axis {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}

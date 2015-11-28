@@ -63,4 +63,4 @@ def getHistogram(mint_email):
 if __name__ == "__main__":
     state['apis'] = loadMintAPIs("/Users/tyousaf/mint.txt")
     loadAllTransactions()
-    app.run(debug=True)
+    app.run(host= '0.0.0.0')
