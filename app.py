@@ -44,12 +44,17 @@ def getTransactions(mint_email):
 	return df.reset_index().to_json(orient='records', date_format='iso')
 
 def getHistogram(mint_email):
+	start_days_ago = 180
+	end_days_from = 10
 	# TODO: clean up redundant summing & index rename
 	df = state['data'][mint_email]
 	df = df[ df.description.str.contains("Uber|Seamless") ]
 	df = df[['date', 'amount']]
 	df = df.groupby('date').sum().sort_index() # sums by day and sorts by date
-	idx = pandas.date_range('01-01-2015', '01-01-2016')
+	now = datetime.datetime.now()
+	start = now - datetime.timedelta(days=start_days_ago)
+	end = now + datetime.timedelta(days=end_days_from)
+	idx = pandas.date_range(start.strftime("%m-%d-%Y"), end.strftime("%m-%d-%Y"))
 	df = df.reindex(idx, fill_value=0)
 	df = df['amount'].resample('W', how='sum') # re-groups & sums by week
 	df.index.names = ['date']
