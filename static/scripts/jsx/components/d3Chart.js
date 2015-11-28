@@ -40,7 +40,7 @@ define([
               width = 1200 - margin.left - margin.right,
               height = 300 - margin.top - margin.bottom;
 
-        var parseDate = d3.time.format("%Y-%m").parse;
+        var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ").parse;
 
         var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
 
@@ -60,7 +60,7 @@ define([
 
         data.forEach(function(d) {
           d.date = parseDate(d.date);
-          d.value = +d.value;
+          d.value = +d.amount;
         });
 
         x.domain(data.map(function(d) { return d.date; }));
