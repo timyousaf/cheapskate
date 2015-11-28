@@ -49,7 +49,7 @@ define([
         var xAxis = d3.svg.axis()
             .scale(x)
             .orient("bottom")
-            .tickFormat(d3.time.format("%Y-%m"));
+            .tickFormat(d3.time.format("%Y-%m-%d"));
 
         var yAxis = d3.svg.axis()
             .scale(y)

@@ -27,10 +27,12 @@ def transactions():
 @app.route("/api/histogram/tim")
 def histogram():
 	# TODO: inject 0-count buckets for empty days.
+	# TODO: clean up redundant summing when i figure out more about Pandas.
 	df = apis['timyousaf@gmail.com'].get_transactions()
 	df = df[ df.description.str.contains("Uber|Seamless") ]
 	df = df[['date', 'amount']]
-	df = df.groupby('date').sum().sort_index()
+	df = df.groupby('date').sum().sort_index() # sums by day and sorts by date
+	df = df['amount'].resample('W', how='sum') # re-groups & sums by week
 	return df.reset_index().to_json(orient='records', date_format='iso')
 
 if __name__ == "__main__":
