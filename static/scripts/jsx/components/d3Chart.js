@@ -9,7 +9,7 @@ define([
         console.log('trying to create the D3 chart')
         
         var margin = {top: 20, right: 20, bottom: 70, left: 40},
-              width = 1200 - margin.left - margin.right,
+              width = 700 - margin.left - margin.right,
               height = 300 - margin.top - margin.bottom;
 
          var svg = d3.select("body").append("svg")
@@ -37,7 +37,7 @@ define([
         var svg = this.svg
 
         var margin = {top: 20, right: 20, bottom: 70, left: 40},
-              width = 1200 - margin.left - margin.right,
+              width = 700 - margin.left - margin.right,
               height = 300 - margin.top - margin.bottom;
 
         var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ").parse;
@@ -93,7 +93,16 @@ define([
             .attr("x", function(d) { return x(d.date); })
             .attr("width", x.rangeBand())
             .attr("y", function(d) { return y(d.value); })
-            .attr("height", function(d) { return height - y(d.value); });
+            .attr("height", function(d) { return height - y(d.value); })
+
+      svg.selectAll("bar")
+            .data(data)
+          .enter().append("text")
+            .attr("class", "label")
+            .attr("x", function(d) { return x(d.date) + 1 })
+            .attr("y", function(d) { return y(d.value) - 5; })
+            .attr("dy", ".35em")
+            .text(function(d) { return Math.round(d.value); });
             
         console.log('Finished drawing the chart!');
       };
