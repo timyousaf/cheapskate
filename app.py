@@ -18,11 +18,11 @@ def loadMintAPIs():
 def index():
     return render_template('index.html')
 
-@app.route("/api/transactions")
+@app.route("/api/transactions/tim")
 def transactions():
-	transactions = mint.get_transactions()
-	uber_and_seamless_transactions = transactions[ transactions.description.str.contains("Uber|Seamless") ]
-	return uber_and_seamless_transactions.to_json(orient='records')
+	df = apis['timyousaf@gmail.com'].get_transactions()
+	df = df[ df.description.str.contains("Uber|Seamless") ]
+	return df.reset_index().to_json(orient='records', date_format='iso')
 
 @app.route("/api/histogram/tim")
 def histogram():
