@@ -7,15 +7,21 @@ define([
 
       d3Chart.create = function(el, props, state) {
         console.log('trying to create the D3 chart')
-        // var svg = d3.select(el).append('svg')
-        //     .attr('class', 'd3')
-        //     .attr('width', props.width)
-        //     .attr('height', props.height);
-
-        // svg.append('g')
-        //     .attr('class', 'd3-points');
         
+        var margin = {top: 20, right: 20, bottom: 70, left: 40},
+              width = 1200 - margin.left - margin.right,
+              height = 300 - margin.top - margin.bottom;
+
+         var svg = d3.select("body").append("svg")
+              .attr("width", width + margin.left + margin.right)
+              .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+              .attr("transform", 
+                    "translate(" + margin.left + "," + margin.top + ")");
+
         console.log('created the chart. now updating it.')
+
+        this.svg = svg
         
         this.update(el, state);
         
@@ -24,39 +30,31 @@ define([
       };
 
       d3Chart.update = function(el, state) {
-        console.log('trying to update the chart')
-        console.log(this);
-        // Re-compute the scales, and render the data points
-        
+        console.log('trying to update the chart. Got this data: ')
+        console.log(state);
+
         console.log('time to draw the chart:')
+        var svg = this.svg
 
         var margin = {top: 20, right: 20, bottom: 70, left: 40},
-              width = 600 - margin.left - margin.right,
+              width = 1200 - margin.left - margin.right,
               height = 300 - margin.top - margin.bottom;
 
-          // Parse the date / time
-          var parseDate = d3.time.format("%Y-%m").parse;
+        var parseDate = d3.time.format("%Y-%m").parse;
 
-          var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
+        var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
 
-          var y = d3.scale.linear().range([height, 0]);
+        var y = d3.scale.linear().range([height, 0]);
 
-          var xAxis = d3.svg.axis()
-              .scale(x)
-              .orient("bottom")
-              .tickFormat(d3.time.format("%Y-%m"));
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom")
+            .tickFormat(d3.time.format("%Y-%m"));
 
-          var yAxis = d3.svg.axis()
-              .scale(y)
-              .orient("left")
-              .ticks(10);
-
-          var svg = d3.select("body").append("svg")
-              .attr("width", width + margin.left + margin.right)
-              .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-              .attr("transform", 
-                    "translate(" + margin.left + "," + margin.top + ")");
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left")
+            .ticks(10);
 
         var data = state.data
 
@@ -108,21 +106,6 @@ define([
       d3Chart._drawPoints = function(el, scales, data) {
         var g = d3.select(el).selectAll('.d3-points');
 
-        var point = g.selectAll('.d3-point')
-          .data(data, function(d) { return d.id; });
-
-        // ENTER
-        point.enter().append('circle')
-            .attr('class', 'd3-point');
-
-        // ENTER & UPDATE
-        point.attr('cx', function(d) { return scales.x(d.x); })
-            .attr('cy', function(d) { return scales.y(d.y); })
-            .attr('r', function(d) { return scales.z(d.z); });
-
-        // EXIT
-        point.exit()
-            .remove();
       };
 
       return d3Chart;
