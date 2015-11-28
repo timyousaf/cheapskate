@@ -26,30 +26,44 @@ define([
                     });
           },
 
+          loadTransactionsHistogram: function () {
+                    console.log("hi! calling the histogram API now");
+                    $.ajax({
+                        url: "/api/histogram/tim",
+                        dataType: 'json',
+                        success: function (data) {  
+                            console.log("Got " + data.length + " histogram entries!");
+                            this.setState({
+                                histogram: data
+                            });
+                        }.bind(this),
+                        error: function (xhr, status, err) {
+                            console.error(this.props.url, status, err.toString());
+                        }.bind(this)
+                    });
+          },
+
           getInitialState: function () {
                     console.log('setting App.js initial state')
-                    var sampleData = [
-                        {date: '2015-01', value: 12},
-                        {date: '2015-02', value: 20}
-                      ];
-
                     return {
                       transactions: [],
-                      data: sampleData,
+                      histogram: [],
                       domain: {x: [0, 30], y: [0, 100]}
                     };
           },
 
           componentDidMount: function () {
                     console.log('App.js component did mount.');
-                    this.loadTransactions();
+                    //this.loadTransactions();
+                    this.loadTransactionsHistogram();
           },
 
           render: function() {
             console.log('Beginning of App.js render');
             var transactions = this.state.transactions;
-            console.log('sending it these transactions:')
-            console.log(transactions)
+            var histogram = this.state.histogram;
+            console.log('sending it these histograms:')
+            console.log(histogram)
             
             return (
 
@@ -59,7 +73,7 @@ define([
 
               <div className="chart">
                   <Chart
-                    data={this.state.data}
+                    data={this.state.histogram}
                     domain={this.state.domain} />
                 </div>
 
