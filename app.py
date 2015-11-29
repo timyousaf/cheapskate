@@ -82,7 +82,7 @@ def getStackedHistogram(mint_email):
 	# TODO: probably a LOT. but this produces correct results when checked vs. Excel.
 	df = state['data'][mint_email]
 	df = df[ df.description.str.contains("Uber|Seamless") ]
-	df['category'] = map(lambda x: "Uber" if x.find("Uber") > -1 else  "Seamless", df['description'])
+	df['category'] = map(lambda x: "uber" if x.find("Uber") > -1 else  "seamless", df['description'])
 	df = df[['date', 'category', 'amount']]
 	df = pandas.pivot_table(df,index=["date"], columns=["category"], values=["amount"], aggfunc=[np.sum])
 	now = datetime.datetime.now()
@@ -96,9 +96,12 @@ def getStackedHistogram(mint_email):
 	return df.reset_index().to_json(orient='records', date_format='iso')
 
 if __name__ == "__main__":
-    #state['apis'] = loadMintAPIs("/Users/tyousaf/mint.txt")
-    #loadAllTransactions()
-    #saveStateToDisk('/Users/tyousaf/state.pk1')
+    # production
+    # state['apis'] = loadMintAPIs("/Users/tyousaf/mint.txt")
+    # loadAllTransactions()
+    # saveStateToDisk('/Users/tyousaf/state.pk1')
+    # app.run(host= '0.0.0.0')
+
+    # dev
     state = loadStateFromDisk('/Users/tyousaf/state.pk1')
-    #getStackedHistogram('timyousaf@gmail.com')
     app.run(host= '0.0.0.0')
