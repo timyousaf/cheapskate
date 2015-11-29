@@ -97,11 +97,11 @@ def getStackedHistogram(mint_email):
 
 if __name__ == "__main__":
     # production
-    # state['apis'] = loadMintAPIs("/Users/tyousaf/mint.txt")
-    # loadAllTransactions()
-    # saveStateToDisk('/Users/tyousaf/state.pk1')
-    # app.run(host= '0.0.0.0')
+    state['apis'] = loadMintAPIs("/Users/tyousaf/mint.txt")
+    loadAllTransactions()
+    saveStateToDisk('/Users/tyousaf/state.pk1')
+    app.run(host= '0.0.0.0')
 
     # dev
-    state = loadStateFromDisk('/Users/tyousaf/state.pk1')
-    app.run(host= '0.0.0.0')
+    # state = loadStateFromDisk('/Users/tyousaf/state.pk1')
+    # app.run(host= '0.0.0.0')
