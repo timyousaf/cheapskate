@@ -37,7 +37,7 @@ define([
 
         var y = d3.scale.linear().range([height, 0]);
         
-        var z = d3.scale.category10();
+        var colors = ['#529ECD', '#7DB6DA']
 
         var xAxis = d3.svg.axis()
             .scale(x)
@@ -74,7 +74,7 @@ define([
           .data(layers)
           .enter().append("g")
             .attr("class", "layer")
-            .style("fill", function(d, i) { return z(i); });
+            .style("fill", function(d, i) { return colors[i]; });
 
         layer.selectAll("rect")
             .data(function(d) { return d; })
@@ -84,14 +84,18 @@ define([
             .attr("height", function(d) { return y(d.y0) - y(d.y + d.y0); })
             .attr("width", x.rangeBand() - 1);
               
-       svg.append("g")
-        .attr("class", "axis axis--x")
-        .attr("transform", "translate(0," + height + ")")
-        .call(xAxis);
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis)
+          .selectAll("text")
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", "-.55em")
+            .attr("transform", "rotate(-90)" );
 
       svg.append("g")
         .attr("class", "axis axis--y")
-        .attr("transform", "translate(" + width + ",0)")
         .call(yAxis);
             
         console.log('Finished drawing the chart!');
