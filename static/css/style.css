@@ -1,3 +1,18 @@
+.axis text {
+  font: 10px sans-serif;
+}
+
+.axis line,
+.axis path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis--x path {
+  display: none;
+}
+
 body {
     background-color: rgb(246, 245, 245);
     font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";

@@ -6,34 +6,23 @@ define([
       var d3Chart = {};
 
       d3Chart.create = function(el, props, state) {
-        console.log('trying to create the D3 chart')
         
         var margin = {top: 20, right: 20, bottom: 70, left: 40},
               width = 700 - margin.left - margin.right,
               height = 300 - margin.top - margin.bottom;
 
-         var svg = d3.select("body").append("svg")
+        var svg = d3.select("body").append("svg")
               .attr("width", width + margin.left + margin.right)
               .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-              .attr("transform", 
-                    "translate(" + margin.left + "," + margin.top + ")");
+              .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        console.log('created the chart. now updating it.')
-
-        this.svg = svg
-        
+        this.svg = svg        
         this.update(el, state);
-        
-        console.log("successfuly created and updated the D3 chart")
 
       };
 
       d3Chart.update = function(el, state) {
-        console.log('trying to update the chart. Got this data: ')
-        console.log(state);
-
-        console.log('time to draw the chart:')
         var svg = this.svg
 
         var margin = {top: 20, right: 20, bottom: 70, left: 40},

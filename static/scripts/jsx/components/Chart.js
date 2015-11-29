@@ -10,13 +10,11 @@ define([
     },
 
     componentDidMount: function() {
-      console.log('mounting Chart ...')
       var el = this.getDOMNode();
       d3StackedChart.create(el, {
         width: '100%',
         height: '300px'
       }, this.getChartState());
-      console.log('mounted chart')
     },
 
     componentDidUpdate: function() {
@@ -37,7 +35,6 @@ define([
     },
 
     render: function() {
-      console.log('rendering the Chart')
       return (
         <div className="Chart"></div>
       );

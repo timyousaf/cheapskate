@@ -1,5 +1,3 @@
-// list of countries, defined with JavaScript object literals
-console.log("Beginning the journey! This is the start of main.js")
 
 require.config({
     paths: {

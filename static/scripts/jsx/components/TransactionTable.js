@@ -1,4 +1,3 @@
-console.log("Now we are in TransactionTable.js!")
 
 define([
     'react'
