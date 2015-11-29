@@ -4,6 +4,7 @@ import mintapi
 import datetime
 import pandas
 import cPickle as pickle
+import numpy as np
 
 app = Flask(__name__)
 state = {}
@@ -78,24 +79,21 @@ def getHistogram(mint_email):
 def getStackedHistogram(mint_email):
 	start_days_ago = 180
 	end_days_from = 10
-	# TODO: clean up redundant summing & index rename
+	# TODO: probably a LOT. but this produces correct results when checked vs. Excel.
 	df = state['data'][mint_email]
 	df = df[ df.description.str.contains("Uber|Seamless") ]
-
-	df['class'] = map(lambda x: x.contains('Uber'), df['description'])
-	print df
-
-	# df = df[['date', 'amount']]
-	# df = df.groupby('date').sum().sort_index() # sums by day and sorts by date
-	# now = datetime.datetime.now()
-	# start = now - datetime.timedelta(days=start_days_ago)
-	# end = now + datetime.timedelta(days=end_days_from)
-	# idx = pandas.date_range(start.strftime("%m-%d-%Y"), end.strftime("%m-%d-%Y"))
-	# df = df.reindex(idx, fill_value=0)
-	# df = df['amount'].resample('W', how='sum') # re-groups & sums by week
-	# df.index.names = ['date']
-
-	#return df.reset_index().to_json(orient='records', date_format='iso')
+	df['category'] = map(lambda x: "Uber" if x.find("Uber") > -1 else  "Seamless", df['description'])
+	df = df[['date', 'category', 'amount']]
+	df = pandas.pivot_table(df,index=["date"], columns=["category"], values=["amount"], aggfunc=[np.sum])
+	now = datetime.datetime.now()
+	start = now - datetime.timedelta(days=start_days_ago)
+	end = now + datetime.timedelta(days=end_days_from)
+	idx = pandas.date_range(start.strftime("%m-%d-%Y"), end.strftime("%m-%d-%Y"))
+	df = df.reindex(idx, fill_value=0)	
+	df = df.resample('W', how='sum', axis=0) # re-groups & sums by week
+	df.index.names = ['date']
+	df = df['sum']['amount']
+	return df.reset_index().to_json(orient='records', date_format='iso')
 
 if __name__ == "__main__":
     #state['apis'] = loadMintAPIs("/Users/tyousaf/mint.txt")
