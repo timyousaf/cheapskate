@@ -29,7 +29,7 @@ define([
           loadTransactionsHistogram: function () {
                     console.log("hi! calling the histogram API now");
                     $.ajax({
-                        url: "/api/histogram/tim",
+                        url: "/api/histogram/stacked/tim",
                         dataType: 'json',
                         success: function (data) {  
                             console.log("Got " + data.length + " histogram entries!");
