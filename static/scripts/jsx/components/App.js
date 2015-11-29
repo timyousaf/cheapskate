@@ -7,14 +7,14 @@ define([
 ], function (React, TransactionTable, Chart) {
 
         var App = React.createClass({
-          
-          loadTransactions: function () {
+
+          loadHistogramTim: function () {
                     $.ajax({
-                        url: "/api/transactions",
+                        url: "/api/histogram/stacked/tim",
                         dataType: 'json',
                         success: function (data) {  
                             this.setState({
-                                transactions: data
+                                tim_histogram: data
                             });
                         }.bind(this),
                         error: function (xhr, status, err) {
@@ -23,13 +23,13 @@ define([
                     });
           },
 
-          loadTransactionsHistogram: function () {
+          loadHistogramLiana: function () {
                     $.ajax({
-                        url: "/api/histogram/stacked/tim",
+                        url: "/api/histogram/stacked/liana",
                         dataType: 'json',
                         success: function (data) {  
                             this.setState({
-                                histogram: data
+                                liana_histogram: data
                             });
                         }.bind(this),
                         error: function (xhr, status, err) {
@@ -41,31 +41,29 @@ define([
           getInitialState: function () {
                     return {
                       transactions: [],
-                      histogram: [],
+                      tim_histogram: [],
+                      liana_histogram: [],
                       domain: {x: [0, 30], y: [0, 100]}
                     };
           },
 
           componentDidMount: function () {
-                    //this.loadTransactions();
-                    this.loadTransactionsHistogram();
+                    this.loadHistogramTim();
+                    this.loadHistogramLiana();
           },
 
           render: function() {
-            var transactions = this.state.transactions;
-            var histogram = this.state.histogram;
-            
             return (
-
-              // <div className="transactionTable">
-              //           <TransactionTable data={transactions} />
-              // </div>
 
               <div className="chart">
                   <Chart
-                    data={this.state.histogram}
+                    data={this.state.tim_histogram}
                     domain={this.state.domain} />
-                </div>
+              
+                  <Chart
+                    data={this.state.liana_histogram}
+                    domain={this.state.domain} />
+              </div>
 
             )
           }

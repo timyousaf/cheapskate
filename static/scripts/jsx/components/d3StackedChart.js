@@ -17,6 +17,8 @@ define([
               .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+        console.log(state)
+        
         this.svg = svg
         this.update(el, state);
 
