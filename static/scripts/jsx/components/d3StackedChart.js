@@ -65,8 +65,6 @@ define([
 
         x.domain(layers[0].map(function(d) { return d.x; }));
         y.domain([0, d3.max(layers[layers.length - 1], function(d) { return d.y0 + d.y; })]).nice();
-
-        console.log(svg.selectAll(".layer"))
         
         d3.selectAll(".layer").remove();
 
@@ -98,7 +96,6 @@ define([
         .attr("class", "axis axis--y")
         .call(yAxis);
             
-        console.log('Finished drawing the chart!');
       };
 
       d3StackedChart.destroy = function(el) {

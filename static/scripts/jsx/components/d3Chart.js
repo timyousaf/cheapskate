@@ -93,7 +93,6 @@ define([
             .attr("dy", ".35em")
             .text(function(d) { return Math.round(d.value); });
             
-        console.log('Finished drawing the chart!');
       };
 
       d3Chart.destroy = function(el) {
