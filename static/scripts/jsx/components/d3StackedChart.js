@@ -3,9 +3,9 @@ define([
     'd3'
 ], function (React) {
 
-      var d3Chart = {};
+      var d3StackedChart = {};
 
-      d3Chart.create = function(el, props, state) {
+      d3StackedChart.create = function(el, props, state) {
         
         var margin = {top: 20, right: 20, bottom: 70, left: 40},
               width = 700 - margin.left - margin.right,
@@ -17,23 +17,27 @@ define([
               .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        this.svg = svg        
+        this.svg = svg
         this.update(el, state);
 
       };
 
-      d3Chart.update = function(el, state) {
+      d3StackedChart.update = function(el, state) {
         var svg = this.svg
 
         var margin = {top: 20, right: 20, bottom: 70, left: 40},
               width = 700 - margin.left - margin.right,
               height = 300 - margin.top - margin.bottom;
 
+        var categories = ["seamless", "uber"]
+
         var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ").parse;
 
         var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
 
         var y = d3.scale.linear().range([height, 0]);
+        
+        var colors = ['#529ECD', '#7DB6DA']
 
         var xAxis = d3.svg.axis()
             .scale(x)
@@ -49,12 +53,35 @@ define([
 
         data.forEach(function(d) {
           d.date = parseDate(d.date);
-          d.value = +d.amount;
+          categories.forEach( function(c) { d[c] = +d[c]; });
         });
 
-        x.domain(data.map(function(d) { return d.date; }));
-        y.domain([0, d3.max(data, function(d) { return d.value; })]);
+        var layers = d3.layout.stack() ( categories.map(function(c) {
+          return data.map(function(d) {
+              return {x: d.date, y: d[c]};
+          });
+            }));
 
+
+        x.domain(layers[0].map(function(d) { return d.x; }));
+        y.domain([0, d3.max(layers[layers.length - 1], function(d) { return d.y0 + d.y; })]).nice();
+        
+        d3.selectAll(".layer").remove();
+
+        var layer = svg.selectAll(".layer")
+          .data(layers)
+          .enter().append("g")
+            .attr("class", "layer")
+            .style("fill", function(d, i) { return colors[i]; });
+
+        layer.selectAll("rect")
+            .data(function(d) { return d; })
+          .enter().append("rect")
+            .attr("x", function(d) { return x(d.x); })
+            .attr("y", function(d) { return y(d.y + d.y0); })
+            .attr("height", function(d) { return y(d.y0) - y(d.y + d.y0); })
+            .attr("width", x.rangeBand() - 1);
+              
         svg.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
@@ -65,46 +92,22 @@ define([
             .attr("dy", "-.55em")
             .attr("transform", "rotate(-90)" );
 
-        svg.append("g")
-            .attr("class", "y axis")
-            .call(yAxis)
-          .append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 6)
-            .attr("dy", ".71em")
-            .style("text-anchor", "end")
-            .text("Value ($)");
-
-        svg.selectAll("bar")
-            .data(data)
-          .enter().append("rect")
-            .style("fill", "steelblue")
-            .attr("x", function(d) { return x(d.date); })
-            .attr("width", x.rangeBand())
-            .attr("y", function(d) { return y(d.value); })
-            .attr("height", function(d) { return height - y(d.value); })
-
-      svg.selectAll("bar")
-            .data(data)
-          .enter().append("text")
-            .attr("class", "label")
-            .attr("x", function(d) { return x(d.date) + 1 })
-            .attr("y", function(d) { return y(d.value) - 5; })
-            .attr("dy", ".35em")
-            .text(function(d) { return Math.round(d.value); });
+      svg.append("g")
+        .attr("class", "axis axis--y")
+        .call(yAxis);
             
       };
 
-      d3Chart.destroy = function(el) {
+      d3StackedChart.destroy = function(el) {
         // Any clean-up would go here
         // in this example there is nothing to do
       };
 
-      d3Chart._drawPoints = function(el, scales, data) {
+      d3StackedChart._drawPoints = function(el, scales, data) {
         var g = d3.select(el).selectAll('.d3-points');
 
       };
 
-      return d3Chart;
+      return d3StackedChart;
 
 });

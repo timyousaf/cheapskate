@@ -1,7 +1,7 @@
 define([
     'react',
-    'components/d3Chart'
-], function (React, d3Chart) {
+    'components/d3StackedChart'
+], function (React, d3StackedChart) {
 
   var Chart = React.createClass({
     propTypes: {
@@ -10,18 +10,16 @@ define([
     },
 
     componentDidMount: function() {
-      console.log('mounting Chart ...')
       var el = this.getDOMNode();
-      d3Chart.create(el, {
+      d3StackedChart.create(el, {
         width: '100%',
         height: '300px'
       }, this.getChartState());
-      console.log('mounted chart')
     },
 
     componentDidUpdate: function() {
       var el = this.getDOMNode();
-      d3Chart.update(el, this.getChartState());
+      d3StackedChart.update(el, this.getChartState());
     },
 
     getChartState: function() {
@@ -33,11 +31,10 @@ define([
 
     componentWillUnmount: function() {
       var el = this.getDOMNode();
-      d3Chart.destroy(el);
+      d3StackedChart.destroy(el);
     },
 
     render: function() {
-      console.log('rendering the Chart')
       return (
         <div className="Chart"></div>
       );
