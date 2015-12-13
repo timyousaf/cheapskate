@@ -17,8 +17,11 @@ define([
               .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+        console.log('updating a chart...')
+        console.log(state)
         this.svg = svg
         this.update(el, state);
+        console.log('updated a chart.')
 
       };
 
@@ -50,7 +53,7 @@ define([
             .ticks(10);
 
         var data = state.data
-
+        
         data.forEach(function(d) {
           d.date = parseDate(d.date);
           categories.forEach( function(c) { d[c] = +d[c]; });

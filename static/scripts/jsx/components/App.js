@@ -7,65 +7,60 @@ define([
 ], function (React, TransactionTable, Chart) {
 
         var App = React.createClass({
-          
-          loadTransactions: function () {
-                    $.ajax({
-                        url: "/api/transactions",
-                        dataType: 'json',
-                        success: function (data) {  
-                            this.setState({
-                                transactions: data
-                            });
-                        }.bind(this),
-                        error: function (xhr, status, err) {
-                            console.error(this.props.url, status, err.toString());
-                        }.bind(this)
-                    });
-          },
-
-          loadTransactionsHistogram: function () {
-                    $.ajax({
-                        url: "/api/histogram/stacked/tim",
-                        dataType: 'json',
-                        success: function (data) {  
-                            this.setState({
-                                histogram: data
-                            });
-                        }.bind(this),
-                        error: function (xhr, status, err) {
-                            console.error(this.props.url, status, err.toString());
-                        }.bind(this)
-                    });
-          },
 
           getInitialState: function () {
                     return {
                       transactions: [],
-                      histogram: [],
+                      filter_keywords: "Uber|Seamless",
+                      mints: {
+                        "timyousaf@gmail.com" : [],
+                        "lianaparis@gmail.com" : [],
+                      },
                       domain: {x: [0, 30], y: [0, 100]}
                     };
           },
-
+          
           componentDidMount: function () {
-                    //this.loadTransactions();
-                    this.loadTransactionsHistogram();
+                    for (var mint_email in this.state.mints) {
+                      console.log("Loading histogram for " + mint_email);
+                      this.loadHistogram(mint_email, this.state.filter_keywords);  
+                    }
           },
 
+          loadHistogram: function (mint_email, filter_keywords) {
+                    $.ajax({
+                        url: "/api/histogram/stacked",
+                        dataType: 'json',
+                        data: { "mint_email" : mint_email, "filter_keywords" : filter_keywords },
+                        success: function (data) {  
+                            console.log("Received histogram of length " + data.length + " for " + mint_email)
+                            var mints = {}
+                            mints[mint_email] = data
+                            this.setState({
+                              mints : mints
+                            });
+                        }.bind(this),
+                        error: function (xhr, status, err) {
+                            console.error(this.props.url, status, err.toString());
+                        }.bind(this)
+                    });
+          },  
+
           render: function() {
-            var transactions = this.state.transactions;
-            var histogram = this.state.histogram;
-            
             return (
 
-              // <div className="transactionTable">
-              //           <TransactionTable data={transactions} />
-              // </div>
+              <div>
 
               <div className="chart">
-                  <Chart
-                    data={this.state.histogram}
-                    domain={this.state.domain} />
+                <div className="tim-chart">
+                    <Chart
+                      name="tim-chart"
+                      data={ this.state.mints["timyousaf@gmail.com"] }
+                      domain={this.state.domain} />
                 </div>
+              </div>
+
+              </div>
 
             )
           }
