@@ -53,7 +53,7 @@ define([
             .ticks(10);
 
         var data = state.data
-
+        
         data.forEach(function(d) {
           d.date = parseDate(d.date);
           categories.forEach( function(c) { d[c] = +d[c]; });
@@ -70,7 +70,6 @@ define([
         y.domain([0, d3.max(layers[layers.length - 1], function(d) { return d.y0 + d.y; })]).nice();
         
         d3.selectAll(".layer").remove();
-        console.log(state)
 
         var layer = svg.selectAll(".layer")
           .data(layers)
