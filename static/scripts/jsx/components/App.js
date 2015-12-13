@@ -43,7 +43,8 @@ define([
                       transactions: [],
                       tim_histogram: [],
                       liana_histogram: [],
-                      domain: {x: [0, 30], y: [0, 100]}
+                      tim_domain: {x: [0, 30], y: [0, 100]},
+                      liana_domain: {x: [0, 30], y: [0, 100]},
                     };
           },
 
@@ -55,14 +56,26 @@ define([
           render: function() {
             return (
 
+              <div>
+
               <div className="chart">
-                  <Chart
-                    data={this.state.tim_histogram}
-                    domain={this.state.domain} />
-              
-                  <Chart
-                    data={this.state.liana_histogram}
-                    domain={this.state.domain} />
+                <div className="liana-chart">
+                    <Chart
+                      name="tim-chart"
+                      data={this.state.tim_histogram}
+                      domain={this.state.tim_domain} />
+                </div>
+              </div>
+
+              <div className="chart">
+                <div className="liana-chart">
+                    <Chart
+                      name="liana-chart"
+                      data={this.state.liana_histogram}
+                      domain={this.state.liana_domain} />
+                </div>
+              </div>
+
               </div>
 
             )

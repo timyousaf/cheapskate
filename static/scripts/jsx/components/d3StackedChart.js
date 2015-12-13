@@ -17,10 +17,11 @@ define([
               .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+        console.log('updating a chart...')
         console.log(state)
-        
         this.svg = svg
         this.update(el, state);
+        console.log('updated a chart.')
 
       };
 
@@ -69,6 +70,7 @@ define([
         y.domain([0, d3.max(layers[layers.length - 1], function(d) { return d.y0 + d.y; })]).nice();
         
         d3.selectAll(".layer").remove();
+        console.log(state)
 
         var layer = svg.selectAll(".layer")
           .data(layers)
